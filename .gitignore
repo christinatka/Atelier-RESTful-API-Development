@@ -6,6 +6,10 @@ client/dist/*
 
 ## API keys ##
 env/config.js
+server/config/db.config.js
+
+## data ##
+ETL/data
 
 ## ETC ##
 !client/dist/index.html
