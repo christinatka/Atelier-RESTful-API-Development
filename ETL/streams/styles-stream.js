@@ -1,10 +1,7 @@
-const Styles = require('../../server/models/ProductStyles.js');
-const sequelize = require('../../server/database/db.js');
+const { Styles } = require('../../server/database/index.js');
 const fs = require('fs');
 const path = require('path');
 const papa = require('papaparse');
-
-// sequelize.options.logging = false;
 
 const parseData = async () => {
   await Styles.sync({ force: true });
@@ -12,6 +9,7 @@ const parseData = async () => {
   papa.parse(fs.createReadStream('../data/styles.csv', 'utf8'), {
     header: true,
     skipEmptyLines: true,
+    timestamps: false,
     chunkSize: 10,
     dynamicTyping: true,
     chunk: (results, parser) => {

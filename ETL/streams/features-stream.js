@@ -1,4 +1,4 @@
-const Features = require('../../server/models/ProductFeatures.js');
+const { Features } = require('../../server/database/index.js');
 const fs = require('fs');
 const path = require('path');
 const papa = require('papaparse');
@@ -9,6 +9,7 @@ const parseData = async () => {
   papa.parse(fs.createReadStream('../data/features.csv', 'utf8'), {
     header: true,
     skipEmptyLines: true,
+    timestamps: false,
     chunkSize: 10,
     chunk: (results, parser) => {
       parser.pause();
