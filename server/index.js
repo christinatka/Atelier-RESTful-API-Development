@@ -11,6 +11,6 @@ app.use(parser.urlencoded({ extended: true }));
 app.use(express.static('./client/dist'));
 
 // connection to router
-app.use('/', router);
+app.use('/products', router);
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
