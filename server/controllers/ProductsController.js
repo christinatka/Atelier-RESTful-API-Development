@@ -1,8 +1,8 @@
 const db = require('../database');
-
+const { getProducts } = require('./utils');
 
 const getAllProducts = (req, res) => {
-  return db.Products.findAll()
+  return getProducts()
     .then((products) => res.status(200).send(products))
     .catch(() => res.sendStatus(500));
 };

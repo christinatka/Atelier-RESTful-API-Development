@@ -1,143 +1,45 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('./db.js');
+const { Sequelize, DataTypes } = require('sequelize');
+const {
+  createFeatures,
+  createPhotos,
+  createRelated,
+  createSkus,
+  createStyles,
+} = require('../models/models.js');
+const createProducts = require('../models/Products.js');
+const { mysqlPassword } = require('../config/db.config.js');
+
+const sequelize = new Sequelize({
+  dialect: 'mysql',
+  username: 'root',
+  password: mysqlPassword,
+  database: 'ProductOverview',
+  options: {
+    host: 'localhost',
+    port: '3306',
+    pool: {
+      max: 10,
+    },
+  },
+});
 
 //Products Table
-const Products = sequelize.define('Products', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false,
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  slogan: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  category: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  default_price: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-});
+const Products = createProducts(sequelize);
 
 // Features Table
-const Features = sequelize.define('ProductFeatures', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false,
-  },
-  product_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  feature: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  value: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-});
+const Features = createFeatures(sequelize);
 
 // Related Table
-const Related = sequelize.define('RelatedProducts', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false,
-  },
-  current_product_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  related_product_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
+const Related = createRelated(sequelize);
 
 // Styles Table
-const Styles = sequelize.define('ProductStyles', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false,
-  },
-  product_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  sale_price: {
-    type: DataTypes.FLOAT,
-    allowNull: true,
-  },
-  original_price: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  default_style: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
+const Styles = createStyles(sequelize);
 
 //Skus Table
-const Skus = sequelize.define('ProductSkus', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false,
-  },
-  style_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  size: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  quantity: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
+const Skus = createSkus(sequelize);
 
 // Photos Table
-const Photos = sequelize.define('Photos', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false,
-  },
-  style_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  url: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  thumbnail_url: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-});
+const Photos = createPhotos(sequelize);
 
 // Associations
 Products.hasMany(Features, {
@@ -164,6 +66,13 @@ Styles.hasMany(Photos, {
   foreignKey: 'style_id',
 });
 Photos.belongsTo(Styles);
+
+Products.sync();
+Features.sync();
+Related.sync();
+Styles.sync();
+Skus.sync();
+Photos.sync();
 
 module.exports = {
   Products,
