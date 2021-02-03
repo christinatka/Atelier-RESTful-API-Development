@@ -5,6 +5,7 @@ const StyleSelector = ({ currentStyleList, currentStyle, styleChange }) => (
     <div className='style-name answerBody'>
       <b className='questionBody'>STYLE &gt;</b> {currentStyle.name}
     </div>
+    {console.log(currentStyleList)}
     {currentStyleList.map((style, i) => (
       <button
         onClick={styleChange}

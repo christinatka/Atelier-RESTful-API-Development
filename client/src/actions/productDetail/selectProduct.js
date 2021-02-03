@@ -28,11 +28,12 @@ const setSelectedProduct = (product_id) => {
         return searchAPI.get(`products/${product_id}/styles`);
       })
       .then(({ data }) => {
+        console.log('INTHER', data);
         dispatch(changeStyleList(data.results));
         dispatch(setSelectedStyle(data.results[0]));
       })
       .then(() => {
-        return searchAPI.get(`qa/questions`, { product_id, count: 100 });
+        return searchAPI.get('qa/questions', { product_id, count: 100 });
       })
       .then(({data}) => {
         dispatch(changeQuestionList(data.results));

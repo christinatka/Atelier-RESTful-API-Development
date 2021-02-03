@@ -39,7 +39,10 @@ const RelatedItems = ({
 
   const relatedItems = Array.isArray(mappingList) &&
   mappingList.map((item) => {
-    let imageURL = !item.styles[0].photos[0].url ? null : item.styles[0].photos[0].url;
+    let imageURL = null;
+    if (item.styles.length && item.styles[0].photos.length) {
+      imageURL = item.styles[0].photos[0].url;
+    }
     if (imageURL !== null) {
       return <RItemList
         key={'RI' + item.id}

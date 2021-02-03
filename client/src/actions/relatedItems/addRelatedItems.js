@@ -51,6 +51,7 @@ const addRelatedItems = (productId) => {
           let overall = item;
           return searchEngine.get(`products/${item.id}/styles`)
             .then(res => {
+              console.log(res);
               var productId = item.id;
               overall.styles = res.data.results;
 

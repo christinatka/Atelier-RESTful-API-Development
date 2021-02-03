@@ -2,7 +2,7 @@ const db = require('../database');
 
 
 const getAllProducts = (req, res) => {
-  return db.Products.findAll()
+  return db.Products.findAll({ limit: 10 })
     .then((products) => res.status(200).send(products))
     .catch(() => res.sendStatus(500));
 };
@@ -19,7 +19,21 @@ const getProductStyles = (req, res) => {
       product_id: req.params.productId,
     }
   })
-    .then((styles) => res.status(200).send(styles))
+    .then(async (styles) => res.status(200).send({
+      product_id: req.params.productId,
+      results: await Promise.all(styles.map(async style => ({
+        style_id: style.id,
+        original_price: style.original_price,
+        name: style.name,
+        sale_price: style.sale_price,
+        'default?': !!style.default_style,
+        photos: await db.Photos.findAll({
+          where: {
+            style_id: style.id
+          }
+        })
+      }))),
+    }))
     .catch(() => res.sendStatus(500));
 };
 
