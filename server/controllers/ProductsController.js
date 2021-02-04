@@ -31,6 +31,11 @@ const getProductStyles = (req, res) => {
           where: {
             style_id: style.id
           }
+        }),
+        skus: await db.Skus.findAll({
+          where: {
+            style_id: style.id
+          }
         })
       }))),
     }))

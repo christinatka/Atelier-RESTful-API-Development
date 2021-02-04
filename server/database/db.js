@@ -6,6 +6,9 @@ const sequelize = new Sequelize({
   username: 'root',
   password: mysqlPassword,
   database: 'ProductOverview',
+  define: {
+    timestamps: false,
+  },
   options: {
     host: 'localhost',
     port: '3306',

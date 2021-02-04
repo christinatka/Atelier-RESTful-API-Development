@@ -10,7 +10,7 @@
     "start": "node server/index.js"
   },
   "keywords": [],
-  "author": "Claire Sujin Kim",
+  "author": "Christina Tkatchenko",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.12.10",
