@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  # webserver:
+  #   depends_on:
+  #     - mysql1
+  #   links:
+  #     - mysql1
+  #   image: "christinatka/atelierapp"
+  #   build: .
+  #   container_name: "webserver"
+  #   ports:
+  #     - "3333:3333"
+  #   restart: on-failure
+
+  mysql1:
+    image: "mysql:latest"
+    container_name: "mysql1"
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_USER: "root"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: "ProductOverview"
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/usr/local/var/mysql
+
+volumes:
+  db-data:

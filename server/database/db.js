@@ -1,17 +1,17 @@
 const { Sequelize } = require('sequelize');
-const { mysqlPassword } = require('../config/db.config.js');
 
 const sequelize = new Sequelize({
   dialect: 'mysql',
   username: 'root',
-  password: mysqlPassword,
+  password: 'password',
   database: 'ProductOverview',
   define: {
     timestamps: false,
   },
   options: {
-    host: 'localhost',
+    logging: false,
     port: '3306',
+    host: 'http://127.0.0.1',
     pool: {
       max: 10,
     },
